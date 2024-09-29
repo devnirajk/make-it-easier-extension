@@ -2,6 +2,8 @@
 const root = document.createElement('div');
 
 
+
+// function to design the div 
 function designDiv(element) {
     element.style.position = "fixed";
     element.style.bottom = "10px";
@@ -12,12 +14,10 @@ function designDiv(element) {
     element.style.borderRadius = "8px";
     element.style.fontFamily = "sans-serif";
     element.style.fontSize = "smaller";
-
-    // Set maximum height and enable scrolling
-    element.style.maxHeight = "fitContent"; // Adjust height as needed
+    element.style.maxHeight = "fitContent"; 
     element.style.maxWidth = "200px";
-    element.style.overflowY = "auto"; // Enable vertical scrolling
-    element.style.overflowX = "hidden"; // Hide horizontal scrolling
+    element.style.overflowY = "auto"; 
+    element.style.overflowX = "hidden"; 
     return element;
 }
 
@@ -48,7 +48,7 @@ function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
         .then(() => navigator.clipboard.readText())
         .then((data) => {
-            return callGemini(data);  // Return the promise from callGemini
+            return callGemini(data);  
         })
         .then((response) => {
             const text = response;

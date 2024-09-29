@@ -1,27 +1,6 @@
 
 const root = document.createElement('div');
 
-
-
-// function to design the div 
-function designDiv(element) {
-    element.style.position = "fixed";
-    element.style.bottom = "10px";
-    element.style.right = "10px";
-    element.style.backgroundColor = "#7b35b8";
-    element.style.padding = "10px";
-    element.style.color = "white";
-    element.style.borderRadius = "8px";
-    element.style.fontFamily = "sans-serif";
-    element.style.fontSize = "smaller";
-    element.style.maxHeight = "fitContent"; 
-    element.style.maxWidth = "200px";
-    element.style.overflowY = "auto"; 
-    element.style.overflowX = "hidden"; 
-    return element;
-}
-
-
 document.body.appendChild(designDiv(root));
 
 
@@ -44,25 +23,6 @@ async function callGemini(text) {
 root.innerText = "AI will make it easy for you!!!";
 
 
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
-        .then(() => navigator.clipboard.readText())
-        .then((data) => {
-            return callGemini(data);  
-        })
-        .then((response) => {
-            const text = response;
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(text.message, "text/html");
-            const newBody = doc.body;
-            root.appendChild(designDiv(newBody));
-        })
-        .catch(err => {
-            console.error('Failed to copy text: ', err);
-        });
-}
-
-
 // Detect mouseup event for text selection
 // When mouse will be released method will be called
 document.addEventListener('mouseup', () => {
@@ -72,3 +32,43 @@ document.addEventListener('mouseup', () => {
         copyToClipboard(selectedText);
     }
 });
+
+
+
+
+function designDiv(element) {
+    element.style.position = "fixed";
+    element.style.bottom = "10px";
+    element.style.right = "10px";
+    element.style.backgroundColor = "#7b35b8";
+    element.style.padding = "10px";
+    element.style.color = "white";
+    element.style.borderRadius = "8px";
+    element.style.fontFamily = "sans-serif";
+    element.style.fontSize = "smaller";
+    element.style.maxHeight = "200px";
+    element.style.maxWidth = "200px";
+    element.style.overflowY = "auto"; 
+    element.style.overflowX = "hidden"; 
+    return element;
+}
+
+function copyToClipboard(text) {
+    root.innerText = "Fetching...";
+    navigator.clipboard.writeText(text)
+        .then(() => navigator.clipboard.readText())
+        .then((data) => {
+            return callGemini(data);  
+        })
+        .then((response) => {
+            const message = response.message || "";
+            root.innerHTML = "";
+            const newContent = document.createElement('div');
+            newContent.innerHTML = message; 
+            root.appendChild(newContent); 
+            designDiv(root);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+}

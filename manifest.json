@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "make-it-easier",
+    "version": "1.0",
+    "description": "chrome extension for reading articles",
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "logo.png"
+    },
+    "permissions": [
+      "storage",
+      "activeTab",
+      "scripting",
+      "clipboardWrite",
+      "http://localhost/*"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["contentScript.js"]
+      }
+    ]
+  }
